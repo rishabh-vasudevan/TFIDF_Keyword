@@ -20,7 +20,9 @@ with open('keywords.csv') as kw_file:
 
   for k, v in inv_list.items():
     if len(v) > 1:
-        inv_list_final[k] = sorted(v, key = itemgetter(1), reverse=True)
+        v = list(filter(lambda x: x[1]>0, v))
+        if len(v)>0:
+          inv_list_final[k] = sorted(v, key = itemgetter(1), reverse=True)
 
 with open('inverted_list.csv', 'w') as f:
     w = csv.writer(f)
