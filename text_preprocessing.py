@@ -13,7 +13,6 @@ with open('outfile', 'rb') as dp:
 def text_preprocessing(text):
     text = text.lower()    # lowering the text
     text = re.sub(r"[^\w\s]", "", text)    # removing the puntuactions
-    text = re.sub(r"[0-9]", "", text)    # removing the numbers
     s_word = stopwords.words('english')    
     text = [tex for tex in text.split() if tex not in s_word]    # removing the stopwords
     text = " ".join(text)
