@@ -1,13 +1,8 @@
 from sklearn.feature_extraction.text import TfidfVectorizer    # for TF-IDF implementation
-import re    # for text cleaning]
-import nltk
-nltk.download('stopwords')
-from nltk.corpus import stopwords    # to remove stopwords
 import pandas as pd
 import numpy as np
 import pickle as pickle
 from tqdm import tqdm
-import json
 import csv
 
 df = pd.read_csv("listofcoins.csv")
@@ -30,7 +25,7 @@ key_words = {}
 feature_array = np.array(tf_idf_vector.get_feature_names_out())
 # tfidf_sorting = np.argsort(response.toarray()).flatten()[::-1]
 
-number_of_keywords = 10
+number_of_keywords = 50
 
 # top_n = feature_array[tfidf_sorting][:number_of_keywords]
 
@@ -40,7 +35,15 @@ number_of_keywords = 10
 for i in tqdm(range(len(documents))):
   response = tf_idf_vector.transform([documents[i]])
   tfidf_sorting = np.argsort(response.toarray()).flatten()[::-1]
+  # print(response.toarray())
+
   key_words[names[i]]=feature_array[tfidf_sorting][:number_of_keywords].tolist()
+  # [key_words[names[i]][j] = (key_words[names[i]][j], response.toarray()[tfidf_sorting[j]]) for j in range(len(key_words[names[i]]))]
+  tfidf_value = response.toarray().flatten().tolist()
+  for j in range(len(key_words[names[i]])):
+    key_words[names[i]][j] = (key_words[names[i]][j], tfidf_value[tfidf_sorting[j]])
+
+  # [for i in range(key_words[])]
 
 
 with open('keywords.csv', 'w') as f:  # You will need 'wb' mode in Python 2.x
