@@ -25,7 +25,7 @@ key_words = {}
 feature_array = np.array(tf_idf_vector.get_feature_names_out())
 # tfidf_sorting = np.argsort(response.toarray()).flatten()[::-1]
 
-number_of_keywords = 50
+number_of_keywords = 100
 
 # top_n = feature_array[tfidf_sorting][:number_of_keywords]
 

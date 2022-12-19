@@ -6,6 +6,7 @@ from operator import itemgetter
 
 inv_list = {}
 inv_list_final={}
+inv_list_with_one_keyword={}
 with open('keywords.csv') as kw_file:
   for line in kw_file:
     kwlist = line.split(',')
@@ -23,7 +24,27 @@ with open('keywords.csv') as kw_file:
         v = list(filter(lambda x: x[1]>0, v))
         if len(v)>0:
           inv_list_final[k] = sorted(v, key = itemgetter(1), reverse=True)
+    else:
+      if len(v)>0:
+        inv_list_with_one_keyword[k] = v
 
 with open('inverted_list.csv', 'w') as f:
     w = csv.writer(f)
     w.writerows(inv_list_final.items())
+
+with open('inverted_list_with_one_word.csv', 'w') as f:
+    w = csv.writer(f)
+    w.writerows(inv_list_with_one_keyword.items())
+    
+## Double inverting the list
+
+double_inverted_list = {}
+for k,v in inv_list_final.items():
+  for coin in v:
+    if coin[0] not in double_inverted_list:
+      double_inverted_list[coin[0]] = []
+    double_inverted_list[coin[0]].append((k,coin[1]))
+
+with open('double_inverted_list.csv', 'w') as f:
+    w = csv.writer(f)
+    w.writerows(double_inverted_list.items())
